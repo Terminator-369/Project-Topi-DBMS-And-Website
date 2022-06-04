@@ -1,0 +1,212 @@
+{% extends 'pt_auth/auth_base.html' %}
+
+
+    {% block content %}
+     <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+
+                    <div class="card-body">
+                        <div class="card-title mb-4">
+                            <div class="d-flex justify-content-start">
+
+                                <div class="userData ml-3">
+                                    <h2 class="d-block" style="font-size: 1.5rem; font-weight: bold"><a href="javascript:void(0);">{{request.user.name}}</a></h2>
+                                </div>
+                                <div class="ml-auto">
+                                    <input type="button" class="btn btn-primary d-none" id="btnDiscard" value="Discard Changes" />
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-12">
+                                <ul class="nav nav-tabs mb-4" id="myTab" role="tablist">
+                                    <li class="nav-item">
+                                        <a class="nav-link active" id="basicInfo-tab" data-toggle="tab" href="#basicInfo" role="tab" aria-controls="basicInfo" aria-selected="true">Bio</a>
+                                    </li>
+                                     <li class="nav-item">
+                                        <a class="nav-link" id="basicInfo-tab" data-toggle="tab" href="#head" role="tab" aria-controls="basicInfo" aria-selected="true">Heads</a>
+                                    </li>
+
+                                     <li class="nav-item">
+                                        <a class="nav-link" id="Subhead-tab" data-toggle="tab" href="#Subhead" role="tab" aria-controls="basicInfo" aria-selected="true">Sub Heads</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" id="Subhead-tab" data-toggle="tab" href="#Vol" role="tab" aria-controls="basicInfo" aria-selected="true">Volunteer</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" id="connectedServices-tab" data-toggle="tab" href="#connectedServices" role="tab" aria-controls="connectedServices" aria-selected="false">Donors</a>
+                                    </li>
+
+                                </ul>
+                                <div class="tab-content ml-1" id="myTabContent">
+                                    <div class="tab-pane fade show active" id="basicInfo" role="tabpanel" aria-labelledby="basicInfo-tab">
+
+
+                                        <div class="row">
+                                            <div class="col-sm-3 col-md-2 col-5">
+                                                <label style="font-weight:bold;">Full Name</label>
+                                            </div>
+                                            <div class="col-md-8 col-6">
+                                                {{request.user.name}}
+                                            </div>
+                                        </div>
+                                        <hr />
+
+                                        <div class="row">
+                                            <div class="col-sm-3 col-md-2 col-5">
+                                                <label style="font-weight:bold;">Email</label>
+                                            </div>
+                                            <div class="col-md-8 col-6">
+                                                {{request.user.email}}
+                                            </div>
+                                        </div>
+                                        <hr />
+
+
+                                        <div class="row">
+                                            <div class="col-sm-3 col-md-2 col-5">
+                                                <label style="font-weight:bold;">Team</label>
+                                            </div>
+                                            <div class="col-md-8 col-6">
+
+                                                {% if request.user.team == '01' or request.user.team == '1'  %}
+                                                Mess Bill Aid
+                                                {% elif request.user.team == '02' or request.user.team == '2' %}
+                                                Sponsor A child
+                                                {% else %}
+                                                {% endif %}
+                                            </div>
+                                        </div>
+                                        <hr />
+                                        <div class="row">
+                                            <div class="col-sm-3 col-md-2 col-5">
+                                                <label style="font-weight:bold;">Phone No</label>
+                                            </div>
+                                            <div class="col-md-8 col-6">
+                                                {{request.user.phone_no}}
+                                            </div>
+                                        </div>
+                                        <hr />
+                                        <div class="row">
+                                            <div class="col-sm-3 col-md-2 col-5">
+                                                <label style="font-weight:bold;">Designation</label>
+                                            </div>
+                                            <div class="col-md-8 col-6">
+                                                EC
+                                            </div>
+                                        </div>
+                                        <hr />
+
+                                    </div>
+                                    <div class="tab-pane fade show active" id="Subhead" role="tabpanel" aria-labelledby="basicInfo-tab">
+                                            <table class="table table-dark">
+                                                <thead>
+                                                 <tr>
+                                                     <th scope="col">ID</th>
+                                                     <th scope="col">Name</th>
+                                                     <th scope="col">Email</th>
+                                                     <th scope="col">Phone No</th>
+                                                 </tr>
+                                                </thead>
+                                                <tbody>
+                                                {% for s in subhead%}
+                                                    <tr>
+                                                        <th>{{s.sub_head.m_id}}</th>
+                                                        <td>{{s.sub_head.name}}</td>
+                                                        <td>{{s.sub_head.m_email}}</td>
+                                                        <td>{{s.sub_head.phone_no}}</td>
+                                                    </tr>
+                                                {% endfor %}
+                                                </tbody>
+                                            </table>
+                                    </div>
+                                    <div class="tab-pane fade" id="connectedServices" role="tabpanel" aria-labelledby="ConnectedServices-tab">
+                                        <table class="table table-dark">
+                                                <thead>
+                                                 <tr>
+                                                     <th scope="col">ID</th>
+                                                     <th scope="col">Name</th>
+                                                     <th scope="col">Email</th>
+                                                     <th scope="col">Phone No</th>
+                                                     <th scope="col">Payments</th>
+                                                     <th scope="col">Add Payment</th>
+
+                                                 </tr>
+                                                </thead>
+                                                <tbody>
+                                                    {% for d,p in donor_payments %}
+                                                        <tr>
+                                                            <th>{{d.donor_id}}</th>
+                                                            <th>{{d.name}}</th>
+                                                            <th>{{d.d_email}}</th>
+                                                            <th>{{d.phone_no}}</th>
+                                                            <th>{{p.payment}}</th>
+                                                            <th><a class="btn btn-sm btn-danger" href="{% url 'delete_donor' d.donor_id%}">Delete</a></th>
+                                                        </tr>
+                                                    {% endfor %}
+                                                </tbody>
+                                            </table>
+                                    </div>
+                                    <div class="tab-pane fade" id="head" role="tabpanel" aria-labelledby="ConnectedServices-tab">
+                                        <table class="table table-dark">
+                                                <thead>
+                                                 <tr>
+                                                     <th scope="col">ID</th>
+                                                     <th scope="col">Name</th>
+                                                     <th scope="col">Email</th>
+                                                     <th scope="col">Phone No</th>
+                                                 </tr>
+                                                </thead>
+                                                <tbody>
+                                                    {% for h in head %}
+                                                        <tr>
+                                                            <th>{{h.head.m_id}}</th>
+                                                            <th>{{h.head.name}}</th>
+                                                            <th>{{h.head.m_email}}</th>
+                                                            <th>{{h.head.phone_no}}</th>
+                                                        </tr>
+                                                    {% endfor %}
+                                                </tbody>
+                                            </table>
+                                    </div>
+                                    <div class="tab-pane fade" id="connect" role="tabpanel" aria-labelledby="ConnectedServices-tab">
+                                        Facebook, Google, Twitter Account that are connected to this account
+                                    </div>
+                                    <div class="tab-pane fade" id="Vol" role="tabpanel" aria-labelledby="ConnectedServices-tab">
+                                        <table class="table table-dark">
+                                                <thead>
+                                                 <tr>
+                                                     <th scope="col">ID</th>
+                                                     <th scope="col">Name</th>
+                                                     <th scope="col">Email</th>
+                                                     <th scope="col">Phone No</th>
+                                                 </tr>
+                                                </thead>
+                                                <tbody>
+                                                {% for v in vol%}
+                                                        <tr>
+                                                            <th>{{v.volunteer.m_id}}</th>
+                                                            <th>{{v.volunteer.name}}</th>
+                                                            <th>{{v.volunteer.m_email}}</th>
+                                                            <th>{{v.volunteer.phone_no}}</th>
+                                                        </tr>
+                                                {% endfor %}
+                                                </tbody>
+                                            </table>
+                                    </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    {% endblock %}
